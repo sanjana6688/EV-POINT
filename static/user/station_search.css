@@ -14,9 +14,6 @@ body {
   overflow-x: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 /* Animations */
@@ -329,7 +326,6 @@ footer {
   color: #ffffff;
   padding: 80px 8% 40px 8%;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: auto;
 }
 
 .footer-container {
@@ -456,18 +452,4 @@ footer {
     flex-direction: column;
     gap: 40px;
   }
-}
-
-@media (max-width: 576px) {
-  .rounded-card {
-    padding: 24px 16px !important;
-    min-height: auto !important;
-  }
-}
-
-.table-responsive {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }

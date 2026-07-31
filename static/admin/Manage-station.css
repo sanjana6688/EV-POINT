@@ -234,43 +234,14 @@ table.dataTable tbody tr:hover {
   border-radius: 4px !important;
 }
 
-/* Responsive Sidebar Layout System */
-#wrapper {
-  overflow-x: hidden;
-}
-
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -260px;
-  transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
-}
-
-#page-content-wrapper {
-  min-width: 100vw;
-}
-
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
-
+/* Responsive Mobile Sidebar */
+@media (max-width: 768px) {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -260px;
   }
 }
-
-.table-responsive {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+@media (min-width: 769px) {
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
 }
