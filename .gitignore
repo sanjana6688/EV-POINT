@@ -29,3 +29,6 @@ instance/
 *.njsproj
 *.sln
 *.swp
+
+# Database backups
+*.sql
