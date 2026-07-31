@@ -1,0 +1,100 @@
+/* User Profile CSS - EV POINT Edition */
+
+.profile-card {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  background-color: #ffffff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03) !important;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.profile-icon {
+  font-size: 100px;
+  color: #000000;
+  opacity: 0.9;
+}
+
+.nav-profile-icon {
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+.nav-profile-icon:hover {
+  color: #000000 !important;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 14px 18px !important;
+  height: auto !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.form-input:focus {
+  border-color: #000000 !important;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+}
+
+.btn-submit:hover {
+  background-color: #222222;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.alert-success {
+  background-color: #e6f4ea !important;
+  color: #137333 !important;
+  border-left: 4px solid #137333 !important;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(19, 115, 51, 0.05);
+}
+
+.alert-danger {
+  background-color: #fce8e6 !important;
+  color: #c5221f !important;
+  border-left: 4px solid #c5221f !important;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(197, 34, 31, 0.05);
+}
+
+.close {
+  outline: none !important;
+}

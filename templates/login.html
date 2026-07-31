@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | EV POINT</title>
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="/static/login.css?v=1.2" />
+  <!-- Icons & fonts -->
+  <link rel="icon" href="/static/temp/assets/images/icon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- HEADER SECTION -->
+  <header>
+    <a href="{{ url_for('home') }}" class="logo-link animate-fade-in">
+      <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 17H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 22H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="black"/>
+        <path d="M14 17H19C21 17 22 12 24 12" stroke="black" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="black" letter-spacing="0.5">EV POINT</text>
+      </svg>
+    </a>
+    
+    <nav class="nav-menu animate-fade-in" id="navMenu">
+      <ul>
+        <li><a href="{{ url_for('home') }}">HOME</a></li>
+        <li><a href="{{ url_for('about') }}">ABOUT</a></li>
+        <li><a href="{{ url_for('contact_us') }}">CONTACT US</a></li>
+        <li class="nav-login"><a href="{{ url_for('login') }}" class="active">LOGIN</a></li>
+      </ul>
+    </nav>
+    
+    <div class="menu-toggle animate-fade-in" id="menuToggle">
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- AUTH FORM CONTAINER (SPLIT LAYOUT) -->
+  <main class="main-container">
+    <div class="auth-split-container animate-slide-up" style="animation-delay: 0.1s;">
+      
+      <!-- Form Side -->
+      <div class="auth-card-side">
+        <div class="auth-card">
+          <!-- Login Form -->
+          <form action="" method="post" class="form" id="login">
+            <h1 class="form-title">Welcome Back</h1>
+            <p class="form-subtitle">Enter your credentials below to access your account dashboard.</p>
+            
+            {% if request.args.get('success') %}
+            <div class="form-success-general">{{ request.args.get('success') }}</div>
+            {% endif %}
+            
+            {% if error and not signup %}
+            <div class="form-error-general form__message--error">{{ error }}</div>
+            {% endif %}
+            
+            <div class="form-group">
+              <label for="username">Username or Email</label>
+              <input type="text" name="username" id="username" class="form-input" autofocus placeholder="Enter your username or email" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label for="password">Password</label>
+                <a href="./forgot_password" class="forgot-link">Forgot?</a>
+              </div>
+              <input type="password" name="password" id="password" class="form-input" placeholder="Enter your password" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <button class="btn-primary" type="submit" name="button" id="button" value="LOGIN">SIGN IN</button>
+            
+            <p class="toggle-text">
+              Don't have an account? <a href="#" id="createAccountLink">Create one free</a>
+            </p>
+          </form>
+
+          <!-- Registration Form -->
+          <form action="{{ url_for('register') }}" method="post" class="form form--hidden" id="createAccount">
+            <h1 class="form-title">Create Account</h1>
+            <p class="form-subtitle">Join EV POINT today to find chargers, reserve slots, and track sessions.</p>
+            
+            {% if error and signup %}
+            <div class="form-error-general form__message--error">{{ error }}</div>
+            {% endif %}
+
+            <div class="form-group">
+              <label for="signupUsername">Username</label>
+              <input type="text" name="signupUsername" id="signupUsername" class="form-input" placeholder="Choose a username" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="text" name="email" id="email" class="form-input" placeholder="you@example.com" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <input type="password" name="password" id="signupPassword" class="form-input" placeholder="Create a strong password" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" name="confirmPassword" id="confirmPassword" class="form-input" placeholder="Re-enter your password" />
+              <div class="form-error form__input-error-message"></div>
+            </div>
+
+            <button class="btn-primary" type="submit">CREATE ACCOUNT</button>
+            
+            <p class="toggle-text">
+              Already have an account? <a href="#" id="loginLink">Sign in instead</a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Image Side -->
+      <div class="auth-image-side">
+        <div class="image-overlay"></div>
+        <img src="/static/pic/ev_login_hero.jpg" alt="EV Charging Hub" class="auth-hero-img" />
+        <div class="image-text">
+          <h2>EV POINT</h2>
+          <p>Future-focused vehicle charging network designed for seamless electric mobility.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo-link">
+          <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+            <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+          </svg>
+        </div>
+        <p>Future-focused vehicle charging network designed for seamless electric mobility.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-group">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 EV POINT. All rights reserved. Built with premium design standards.</p>
+    </div>
+  </footer>
+
+  <!-- MOBILE MENU SCRIPT -->
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  </script>
+
+  <!-- Login Form Toggle Script -->
+  <script>
+    const loginForm = document.querySelector('#login');
+    const createAccountForm = document.querySelector('#createAccount');
+    const loginLink = document.querySelector('#loginLink');
+    const createAccountLink = document.querySelector('#createAccountLink');
+
+    loginLink.addEventListener('click', e => {
+      e.preventDefault();
+      loginForm.classList.remove('form--hidden');
+      createAccountForm.classList.add('form--hidden');
+    });
+
+    createAccountLink.addEventListener('click', e => {
+      e.preventDefault();
+      loginForm.classList.add('form--hidden');
+      createAccountForm.classList.remove('form--hidden');
+    });
+
+    loginForm.addEventListener('submit', e => {
+      const username = document.querySelector('#username').value;
+      const password = document.querySelector('#password').value;
+      const errorContainer = document.querySelector('#login .form__message--error');
+      const errorMessages = document.querySelectorAll('#login .form__input-error-message');
+      let isError = false;
+
+      if (errorContainer) errorContainer.innerHTML = '';
+      errorMessages.forEach(message => message.textContent = '');
+
+      if (username.trim() === '') {
+        displayErrorMessage('username', 'Please enter a username');
+        isError = true;
+      }
+      if (password.trim() === '') {
+        displayErrorMessage('password', 'Please enter a password');
+        isError = true;
+      }
+      if (isError) {
+        e.preventDefault();
+        if (errorContainer) errorContainer.textContent = 'Please enter the required details.';
+      }
+    });
+
+    createAccountForm.addEventListener('submit', e => {
+      const username = document.querySelector('#signupUsername').value;
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#signupPassword').value;
+      const confirmPassword = document.querySelector('#confirmPassword').value;
+      const errorContainer = document.querySelector('#createAccount .form__message--error');
+      const errorMessages = document.querySelectorAll('#createAccount .form__input-error-message');
+      let isError = false;
+
+      if (errorContainer) errorContainer.innerHTML = '';
+      errorMessages.forEach(message => message.textContent = '');
+
+      if (username.trim() === '') {
+        displayErrorMessage('signupUsername', 'Please enter a username');
+        isError = true;
+      }
+      if (email.trim() === '') {
+        displayErrorMessage('email', 'Please enter an email address');
+        isError = true;
+      }
+      if (password.trim() === '') {
+        displayErrorMessage('signupPassword', 'Please enter a password');
+        isError = true;
+      }
+      if (confirmPassword.trim() === '') {
+        displayErrorMessage('confirmPassword', 'Please confirm the password');
+        isError = true;
+      } else if (password !== confirmPassword) {
+        displayErrorMessage('confirmPassword', 'Passwords do not match');
+        isError = true;
+      }
+
+      if (isError) {
+        e.preventDefault();
+        if (errorContainer) errorContainer.textContent = 'Please enter the required details.';
+      }
+    });
+
+    function displayErrorMessage(inputName, message) {
+      const input = document.getElementById(inputName);
+      if (input) {
+        const errorContainer = input.parentElement.querySelector('.form__input-error-message, .form-error');
+        if (errorContainer) {
+          errorContainer.textContent = message;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

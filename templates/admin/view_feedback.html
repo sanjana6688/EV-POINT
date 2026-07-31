@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>View Feedback | EV POINT</title>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="/static/admin/view_feedback.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" href="/static/temp/assets/images/icon.ico" />
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        fetch('/check-session').then(response => {
+          if (!response.ok) {
+            window.location.href = '/login';
+          }
+        }).catch(() => {
+          window.location.href = '/login';
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Wrapper -->
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper animate-fade-in" id="sidebar-wrapper">
+      <div class="sidebar-brand">
+        <svg class="logo-svg" width="150" height="30" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+          <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+        </svg>
+      </div>
+
+      <div class="list-group list-group-flush">
+        <a href="/admin-home" class="list-group-item list-group-item-action">
+          <i class="fa fa-tachometer mr-3"></i>Dashboard
+        </a>
+        <a href="/user-list" class="list-group-item list-group-item-action">
+          <i class="fa fa-users mr-3"></i>Manage Users
+        </a>
+        <a href="/Manage_station" class="list-group-item list-group-item-action">
+          <i class="fa fa-plug mr-3"></i>Manage Station
+        </a>
+        <a href="/view_booking" class="list-group-item list-group-item-action">
+          <i class="fa fa-calendar mr-3"></i>View Bookings
+        </a>
+        <a href="/view_feedback" class="list-group-item list-group-item-action active">
+          <i class="fa fa-commenting mr-3"></i>View Feedback
+        </a>
+        <a href="/logout" class="list-group-item list-group-item-action logout-link">
+          <i class="fa fa-sign-out mr-3"></i>Logout
+        </a>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="w-100">
+      <nav class="navbar navbar-light bg-white border-bottom py-3 px-4">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <button class="btn btn-outline-dark btn-sm d-md-none" id="menu-toggle-btn">
+            <i class="fa fa-bars"></i>
+          </button>
+          <h4 class="mb-0 text-dark font-weight-bold">FEEDBACK VIEW</h4>
+        </div>
+      </nav>
+
+      <div class="container-fluid px-4 py-5 animate-slide-up">
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category or 'info' }} alert-dismissible fade show border-0 rounded-card p-3 mb-4">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <!-- Welcome Section -->
+        <div class="welcome-section mb-5">
+          <h1 class="font-weight-black">💬 Customer Feedback</h1>
+          <p class="text-muted">Review suggestions, feedback, and logs submitted by EV POINT drivers</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="stats-grid mb-5">
+          <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+              <h3>{{ data|length }}</h3>
+              <p>Total Feedbacks</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <h3>{{ data|map(attribute='Name')|unique|list|length }}</h3>
+              <p>Unique Users</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-content">
+              <h3>{{ data|map(attribute='Feedback_date')|unique|list|length }}</h3>
+              <p>Active Days</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-content">
+              <h3>{{ (data|length * 4.2)|int }}</h3>
+              <p>Avg Rating</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="card rounded-card border-0 shadow-sm p-4">
+          <div class="table-responsive">
+            <table id="myTable" class="display w-100">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Feedback Date</th>
+                  <th>Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in data %}
+                <tr>
+                  <td>{{ loop.index }}</td>
+                  <td>
+                    <div class="user-name">
+                      <div class="user-avatar">{{ i.Name[0]|upper if i.Name else 'U' }}</div>
+                      <strong class="font-weight-semibold ml-2">{{ i.Name }}</strong>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="user-email">
+                      <i class="fa fa-envelope mr-1 text-muted"></i> {{ i.Email }}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="feedback-badge font-weight-semibold">
+                      {{ i.Feedback_date }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="feedback-text font-italic text-muted">
+                      "{{ i.Feedback }}"
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#myTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "language": {
+          "search": "🔍 Search feedback:",
+          "lengthMenu": "Show _MENU_ entries",
+          "info": "Showing _START_ to _END_ of _TOTAL_ feedbacks",
+          "infoEmpty": "Showing 0 to 0 of 0 feedbacks",
+          "zeroRecords": "No matching feedback found"
+        }
+      });
+
+      $("#menu-toggle-btn").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+    });
+  </script>
+</body>
+</html>

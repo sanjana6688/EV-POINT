@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Your Charger | EV POINT</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/find-your-charger.css?v=1.2" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="icon" href="/static/temp/assets/images/icon.ico" />
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+  <!-- HEADER SECTION -->
+  <header>
+    <a href="{{ url_for('home') }}" class="logo-link animate-fade-in">
+      <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 17H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 22H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="black"/>
+        <path d="M14 17H19C21 17 22 12 24 12" stroke="black" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="black" letter-spacing="0.5">EV POINT</text>
+      </svg>
+    </a>
+    
+    <nav class="nav-menu animate-fade-in" id="navMenu">
+      <ul>
+        <li><a href="{{ url_for('home') }}">HOME</a></li>
+        <li><a href="{{ url_for('about') }}">ABOUT</a></li>
+        <li><a href="{{ url_for('contact_us') }}">CONTACT US</a></li>
+        <li><a href="{{ url_for('find_your_charger') }}" class="active">FIND CHARGER</a></li>
+        <li class="nav-login"><a href="{{ url_for('login') }}">LOGIN</a></li>
+      </ul>
+    </nav>
+    
+    <div class="menu-toggle animate-fade-in" id="menuToggle">
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-container">
+    <div class="search-layout animate-slide-up" style="animation-delay: 0.1s;">
+      
+      <!-- Filter Card -->
+      <div class="filter-card">
+        <h1 class="page-title">FIND CHARGE POINT</h1>
+        <p class="subtitle">Locate public charging stations near your location or filter by specific connector power configurations.</p>
+        <div id="search-alert-general" class="form-error-general" style="display: none;"></div>
+         
+         <form id="chargerForm">
+          <!-- City Dropdown -->
+          <div class="form-group">
+            <label for="city">Select a City</label>
+            <select id="city" name="city">
+              <option value="" selected>-- All cities --</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Ernakulam">Ernakulam</option>
+              <option value="Kozhikode">Kozhikode</option>
+              <option value="Hubli">Hubli</option>
+              <option value="Dharward">Dharward</option>
+              <option value="Belagavi">Belagavi</option>
+              <option value="Vijayanagara">Vijayanagara</option>
+            </select>
+          </div>
+
+          <!-- Charger Type Dropdown -->
+          <div class="form-group">
+            <label for="charge-type">Select Charger Type</label>
+            <select name="charge-type" id="charge-type">
+              <option value="" selected>-- All charger types --</option>
+              <option value="ac-l1">AC Level 1 Charging</option>
+              <option value="ac-l2">AC Level 2 Charging</option>
+              <option value="dc-fast">DC Fast Charging</option>
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="book" class="btn-search">
+            <i class="fa fa-search" aria-hidden="true"></i> SEARCH STATIONS
+          </button>
+        </form>
+      </div>
+
+      <!-- Map Card -->
+      <div class="map-card">
+        <div id="map"></div>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo-link">
+          <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+            <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+          </svg>
+        </div>
+        <p>Future-focused vehicle charging network designed for seamless electric mobility.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-group">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 EV POINT. All rights reserved. Built with premium design standards.</p>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Enhanced charger data with types
+    const cityLocations = {
+      Bengaluru: [
+        { lat: 12.9716, lng: 77.5946, name: "Charger 1 - Bengaluru", type: "ac-l1" },
+        { lat: 12.9352, lng: 77.6146, name: "Charger 2 - Bengaluru", type: "ac-l2" },
+        { lat: 12.9252, lng: 77.6246, name: "Charger 3 - Bengaluru", type: "dc-fast" },
+      ],
+      Ernakulam: [
+        { lat: 9.9816, lng: 76.2999, name: "Charger 1 - Ernakulam", type: "ac-l2" },
+        { lat: 9.9916, lng: 76.2899, name: "Charger 2 - Ernakulam", type: "dc-fast" },
+      ],
+      Kozhikode: [
+        { lat: 11.2588, lng: 75.7804, name: "Charger 1 - Kozhikode", type: "ac-l1" },
+      ],
+      Hubli: [
+        { lat: 15.3647, lng: 75.1240, name: "Charger 1 - Hubli", type: "ac-l2" },
+        { lat: 15.3609, lng: 75.1220, name: "Charger 2 - Hubli", type: "dc-fast" },
+      ],
+      Dharward: [
+        { lat: 15.4589, lng: 75.0078, name: "Charger 1 - Dharward", type: "ac-l1" },
+      ],
+      Belagavi: [
+        { lat: 15.8497, lng: 74.4977, name: "Charger 1 - Belagavi", type: "ac-l2" },
+      ],
+      Vijayanagara: [
+        { lat: 15.3210, lng: 76.4600, name: "Charger 1 - Vijayanagara", type: "dc-fast" },
+      ]
+    };
+
+    let map = L.map('map').setView([11.0, 76.0], 6); // Default view
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    document.getElementById("chargerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const selectedCity = document.getElementById("city").value;
+      const selectedType = document.getElementById("charge-type").value;
+
+      // If neither city nor type is selected, show all chargers
+      if (!selectedCity && !selectedType) {
+        showLocalAlert("Please select at least one filter (city or charger type)");
+        return;
+      }
+
+      // Clear existing markers
+      map.eachLayer(function (layer) {
+        if (layer instanceof L.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
+      const bounds = [];
+      let chargersToShow = [];
+
+      // Collect all chargers that match the filters
+      for (const city in cityLocations) {
+        // If city is selected and doesn't match, skip
+        if (selectedCity && city !== selectedCity) continue;
+        
+        cityLocations[city].forEach(charger => {
+          // If type is selected and doesn't match, skip
+          if (selectedType && charger.type !== selectedType) return;
+          
+          chargersToShow.push(charger);
+        });
+      }
+
+      // Add markers for filtered chargers
+      chargersToShow.forEach((charger) => {
+        const marker = L.marker([charger.lat, charger.lng])
+          .addTo(map)
+          .bindPopup(`<b>${charger.name}</b><br>Type: ${getTypeName(charger.type)}`);
+        bounds.push([charger.lat, charger.lng]);
+      });
+
+      // Fit bounds if we have markers
+      if (bounds.length > 0) {
+        map.fitBounds(bounds);
+      } else {
+        showLocalAlert("No chargers found matching your criteria");
+      }
+    });
+
+    // Helper function to get display name for charger type
+    function getTypeName(typeCode) {
+      switch(typeCode) {
+        case 'ac-l1': return 'AC Level 1 Charging';
+        case 'ac-l2': return 'AC Level 2 Charging';
+        case 'dc-fast': return 'DC Fast Charging';
+        default: return 'Unknown Type';
+      }
+    }
+
+    function showLocalAlert(msg) {
+      const box = document.getElementById('search-alert-general');
+      if (box) {
+        box.textContent = msg;
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    document.getElementById('city').addEventListener('change', () => {
+      document.getElementById('search-alert-general').style.display = 'none';
+    });
+    document.getElementById('charge-type').addEventListener('change', () => {
+      document.getElementById('search-alert-general').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python caching & compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local environment variables & secrets
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Flask/development instance folder
+instance/
+
+# IDE config folders
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

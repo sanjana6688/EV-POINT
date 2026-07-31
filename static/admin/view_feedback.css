@@ -1,0 +1,245 @@
+/* View Feedback CSS - EV POINT Edition */
+
+/* General Styles override */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fcfcfc;
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animations */
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sidebar Styling */
+#sidebar-wrapper {
+  min-height: 100vh;
+  width: 260px;
+  background-color: #000000;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-brand {
+  padding: 30px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#sidebar-wrapper .list-group {
+  width: 260px;
+  background-color: #000000;
+  padding: 24px 12px;
+}
+
+#sidebar-wrapper .list-group-item {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: all 0.2s ease;
+}
+
+#sidebar-wrapper .list-group-item:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#sidebar-wrapper .list-group-item.active {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 600;
+}
+
+.logout-link {
+  margin-top: 40px !important;
+  color: #ff4d4d !important;
+}
+
+.logout-link:hover {
+  background-color: rgba(255, 77, 77, 0.1) !important;
+}
+
+/* Custom rounded card panel */
+.rounded-card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02) !important;
+  background-color: #ffffff;
+}
+
+/* Header typography */
+.font-weight-black {
+  font-weight: 900;
+  font-size: 2.2rem;
+  letter-spacing: -0.02em;
+}
+
+/* Stats Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+.stat-icon {
+  font-size: 32px;
+}
+
+.stat-content h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.stat-content p {
+  font-size: 12px;
+  color: #666666;
+  margin: 2px 0 0 0;
+}
+
+/* Table Stylings */
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+}
+
+table.dataTable thead th {
+  background-color: #fafafa;
+  color: #000000;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 16px 20px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+table.dataTable tbody td {
+  padding: 18px 20px !important;
+  font-size: 14px;
+  color: #444444;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+table.dataTable tbody tr:hover {
+  background-color: #fafafa !important;
+}
+
+.font-weight-semibold {
+  font-weight: 600;
+  color: #000000;
+}
+
+/* Specific elements styles */
+.user-name {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #f0f0f0;
+  color: #000000;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 13px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.user-email {
+  color: #555555;
+}
+
+.feedback-badge {
+  display: inline-flex;
+  padding: 4px 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 13px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  color: #000000;
+}
+
+.feedback-text {
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.6;
+}
+
+/* DataTables elements style override */
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  outline: none !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: #000000 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 4px !important;
+}
+
+/* Responsive Mobile Sidebar */
+@media (max-width: 768px) {
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -260px;
+  }
+}
+@media (min-width: 769px) {
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+}

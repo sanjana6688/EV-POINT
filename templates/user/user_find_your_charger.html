@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Find Your Charger | EV POINT</title>
+  
+  <link rel="stylesheet" href="/static/user/find-your-charger.css?v=1.1" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="icon" href="/static/temp/assets/images/icon.ico" />
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        fetch('/check-session').then(response => {
+          if (!response.ok) {
+            window.location.href = '/login';
+          }
+        }).catch(() => {
+          window.location.href = '/login';
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- HEADER SECTION -->
+  <header>
+    <a href="{{ url_for('home') }}" class="logo-link animate-fade-in">
+      <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 17H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M2 22H6" stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="black"/>
+        <path d="M14 17H19C21 17 22 12 24 12" stroke="black" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="black" letter-spacing="0.5">EV POINT</text>
+      </svg>
+    </a>
+    
+    <nav class="nav-menu animate-fade-in" id="navMenu">
+      <ul>
+        <li><a href="/user-dashboard">DASHBOARD</a></li>
+        <li><a href="/user-profile">PROFILE</a></li>
+        <li><a href="{{ url_for('user_find_your_charger') }}" class="active">BOOK A SLOT</a></li>
+        <li><a href="/logout">LOGOUT</a></li>
+      </ul>
+    </nav>
+    
+    <div class="menu-toggle animate-fade-in" id="menuToggle">
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- MAIN SECTION -->
+  <main class="main-container">
+    <section class="search-section animate-slide-up" style="animation-delay: 0.1s;">
+      <div class="search-header">
+        <h1 class="page-title">BOOK A CHARGING SLOT</h1>
+        <p class="subtitle">Filter charging stations by city and connector type to check real-time port availability.</p>
+      </div>
+
+      <div class="search-card">
+        <form action="{{ url_for('search_stations') }}" method="post">
+          <div class="form-group">
+            <label for="City">Select a City</label>
+            <select id="City" name="City" required>
+              <option value="">--Select a City--</option>
+              <option value="thiruvananthapuram">Thiruvananthapuram</option>
+              <option value="Kollam">Kollam</option>
+              <option value="Pathanamthitta">Pathanamthitta</option>
+              <option value="Alapuzha">Alapuzha</option>
+              <option value="Kottayam">Kottayam</option>
+              <option value="Idukki">Idukki</option>
+              <option value="Ernakulam">Ernakulam</option>
+              <option value="Thrissur">Thrissur</option>
+              <option value="Palakkad">Palakkad</option>
+              <option value="Malappuram">Malappuram</option>
+              <option value="Kozhikode">Kozhikode</option>
+              <option value="Wayanad">Wayanad</option>
+              <option value="kannur">Kannur</option>
+              <option value="Kasaragod">Kasaragod</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mysuru">Mysuru</option>
+              <option value="Hubballi">Hubballi</option>
+              <option value="Mangaluru">Mangaluru</option>
+              <option value="Belagavi">Belagavi</option>
+              <option value="Shivamogga">Shivamogga</option>
+              <option value="Davanagere">Davanagere</option>
+              <option value="Ballari">Ballari</option>
+              <option value="Kalaburagi">Kalaburagi</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="Charger_type">Select Charging Type</label>
+            <select name="Charger_type" id="Charger_type" required>
+              <option value="">--Select Charger Type--</option>
+              <option value="AC Level 1 Charging">AC Level 1 Charging</option>
+              <option value="AC Level 2 Charging">AC Level 2 Charging</option>
+              <option value="DC Fast Charging">DC Fast Charging</option>
+            </select>
+          </div>
+
+          <button id="book" type="submit" class="btn-search">
+            <i class="fa fa-search mr-2"></i> SEARCH CHARGERS
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo-link">
+          <svg class="logo-svg" width="170" height="35" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+            <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+          </svg>
+        </div>
+        <p>Future-focused vehicle charging network designed for seamless electric mobility.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-group">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="/user-dashboard">User Panel</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 EV POINT. All rights reserved. Built with premium design standards.</p>
+    </div>
+  </footer>
+
+  <!-- MOBILE MENU SCRIPT -->
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

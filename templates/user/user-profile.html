@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>User Profile | EV POINT</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/user/user-login-dashboard.css" />
+  <link rel="stylesheet" href="/static/user/user-profile.css?v=1.1" />
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        fetch('/check-session').then(response => {
+          if (!response.ok) {
+            window.location.href = '/login';
+          }
+        }).catch(() => {
+          window.location.href = '/login';
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Wrapper -->
+  <div class="d-flex" id="wrapper">
+    
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper animate-fade-in" id="sidebar-wrapper">
+      <div class="sidebar-brand">
+        <svg class="logo-svg" width="150" height="30" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+          <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+        </svg>
+      </div>
+
+      <div class="list-group list-group-flush">
+        <a href="/user-dashboard" class="list-group-item list-group-item-action">
+          <i class="fa fa-tachometer mr-3"></i>Dashboard
+        </a>
+        <a href="/user-profile" class="list-group-item list-group-item-action active">
+          <i class="fa fa-user mr-3"></i>Profile
+        </a>
+        <a href="{{ url_for('user_find_your_charger') }}" class="list-group-item list-group-item-action">
+          <i class="fa fa-calendar-plus-o mr-3"></i>Book a New Slot
+        </a>
+        <a href="{{ url_for('contact_us') }}" class="list-group-item list-group-item-action">
+          <i class="fa fa-envelope mr-3"></i>Contact Us
+        </a>
+        <a href="/logout" class="list-group-item list-group-item-action logout-link">
+          <i class="fa fa-sign-out mr-3"></i>Logout
+        </a>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="w-100">
+      <nav class="navbar navbar-light bg-white border-bottom py-3 px-4">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <button class="btn btn-outline-dark btn-sm d-md-none" id="menu-toggle-btn">
+            <i class="fa fa-bars"></i>
+          </button>
+          <h4 class="mb-0 text-dark font-weight-bold">MY PROFILE</h4>
+          <a href="/user-profile" class="nav-profile-icon text-muted">
+            <i class="fa fa-user-circle-o fa-lg"></i>
+          </a>
+        </div>
+      </nav>
+
+      <div class="container-fluid px-4 py-5 animate-slide-up">
+        
+        {% if message %}
+        <div class="alert alert-{{ message[0] }} alert-dismissible fade show border-0 rounded-card p-3 mb-4">
+          {{ message[1] }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %}
+
+        <div class="card profile-card border-0 shadow-sm p-5">
+          <div class="profile-header">
+            <i class="fa fa-user-circle-o profile-icon"></i>
+            <h2 class="font-weight-black mt-3">{{ username }}</h2>
+            <p class="text-muted">Manage your EV POINT account details</p>
+          </div>
+
+          <form method="POST" action="{{ url_for('user_profile') }}">
+            <div class="form-group mb-4">
+              <label for="username">Username</label>
+              <input type="text" class="form-control form-input" id="username" name="username" value="{{ username }}" required>
+            </div>
+            <div class="form-group mb-4">
+              <label for="email">Email Address</label>
+              <input type="email" class="form-control form-input" id="email" name="email" value="{{ email }}" required>
+            </div>
+            <div class="form-group mb-4">
+              <label for="password">New Password</label>
+              <input type="password" class="form-control form-input" id="password" name="password" placeholder="Leave blank to keep current password">
+              <small class="form-text text-muted mt-2">Minimum 8 characters required to change.</small>
+            </div>
+            <div class="form-group mb-4">
+              <label for="confirm-password">Confirm New Password</label>
+              <input type="password" class="form-control form-input" id="confirm-password" name="confirm-password" placeholder="Confirm your new password">
+            </div>
+            
+            <button type="submit" class="btn-submit mt-4">UPDATE PROFILE</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#menu-toggle-btn").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+    });
+  </script>
+</body>
+</html>

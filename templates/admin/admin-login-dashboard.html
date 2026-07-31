@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Admin Dashboard | EV POINT</title>
+
+  <link rel="stylesheet" href="/static/admin/admin-login-dashboard.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" href="/static/temp/assets/images/icon.ico" />
+  
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+  <!-- Import Inter Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        fetch('/check-session').then(response => {
+          if (!response.ok) {
+            window.location.href = '/login';
+          }
+        }).catch(() => {
+          window.location.href = '/login';
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Wrapper -->
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper animate-fade-in" id="sidebar-wrapper">
+      <div class="sidebar-brand">
+        <svg class="logo-svg" width="150" height="30" viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 17H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2 22H6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M6 10C6 8.89543 6.89543 8 8 8H12C13.1046 8 14 8.89543 14 10V24C14 25.1046 13.1046 26 12 26H8C6.89543 26 6 25.1046 6 24V10Z" fill="white"/>
+          <path d="M14 17H19C21 17 22 12 24 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <text x="28" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="white" letter-spacing="0.5">EV POINT</text>
+        </svg>
+      </div>
+
+      <div class="list-group list-group-flush">
+        <a href="/admin-home" class="list-group-item list-group-item-action active">
+          <i class="fa fa-tachometer mr-3"></i>Dashboard
+        </a>
+        <a href="/user-list" class="list-group-item list-group-item-action">
+          <i class="fa fa-users mr-3"></i>Manage Users
+        </a>
+        <a href="/Manage_station" class="list-group-item list-group-item-action">
+          <i class="fa fa-plug mr-3"></i>Manage Station
+        </a>
+        <a href="/view_booking" class="list-group-item list-group-item-action">
+          <i class="fa fa-calendar mr-3"></i>View Bookings
+        </a>
+        <a href="/view_feedback" class="list-group-item list-group-item-action">
+          <i class="fa fa-commenting mr-3"></i>View Feedback
+        </a>
+        <a href="/logout" class="list-group-item list-group-item-action logout-link">
+          <i class="fa fa-sign-out mr-3"></i>Logout
+        </a>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="w-100">
+      <nav class="navbar navbar-light bg-white border-bottom py-3 px-4">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <button class="btn btn-outline-dark btn-sm d-md-none" id="menu-toggle-btn">
+            <i class="fa fa-bars"></i>
+          </button>
+          <h4 class="mb-0 text-dark font-weight-bold">ADMIN PANEL</h4>
+        </div>
+      </nav>
+
+      <div class="container-fluid px-4 py-5 animate-slide-up">
+        
+        <!-- Welcome Section -->
+        <div class="welcome-section mb-5">
+          <h1 class="font-weight-black">Welcome back, {{ username }}!</h1>
+          <p class="welcome-date text-muted">Here's what's happening with your EV charging network today.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid mb-5">
+          <div class="stat-card">
+            <div class="stat-icon">🔌</div>
+            <div class="stat-content">
+              <h3>{{ total_stations | default(0) }}</h3>
+              <p>Total Stations</p>
+              <span class="badge badge-success">{{ active_stations | default(0) }} Active</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <h3>{{ total_users | default(0) }}</h3>
+              <p>Total Users</p>
+              <span class="badge badge-light border">{{ admin_count | default(1) }} Admin</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-content">
+              <h3>{{ total_bookings | default(0) }}</h3>
+              <p>Total Bookings</p>
+              <span class="badge badge-success">{{ completed_bookings | default(0) }} Completed</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+              <h3>{{ total_feedbacks | default(0) }}</h3>
+              <p>User Feedbacks</p>
+              <span class="badge badge-light border">Recent: {{ recent_feedbacks | default(0) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          
+          <!-- Recent Bookings -->
+          <div class="col-lg-6 mb-4">
+            <div class="card rounded-card border-0 shadow-sm">
+              <div class="card-header bg-white border-bottom py-3">
+                <h5 class="m-0 font-weight-bold text-dark"><i class="fa fa-list mr-2"></i>Recent Bookings</h5>
+              </div>
+              <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                  {% for booking in recent_bookings %}
+                  <div class="list-group-item py-3 px-4">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <h6 class="mb-1 font-weight-semibold">{{ booking.Station_name }}</h6>
+                      <small class="text-muted">{{ booking.Booking_date }}</small>
+                    </div>
+                    <p class="mb-1 text-muted font-size-13">{{ booking.City }} &bull; {{ booking.Time_from }} to {{ booking.Time_to }}</p>
+                  </div>
+                  {% else %}
+                  <div class="p-4 text-center text-muted">
+                    <i class="fa fa-calendar fa-2x mb-2 text-light"></i>
+                    <p class="m-0">No recent bookings found</p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Station Status Overview -->
+          <div class="col-lg-6 mb-4">
+            <div class="card rounded-card border-0 shadow-sm">
+              <div class="card-header bg-white border-bottom py-3">
+                <h5 class="m-0 font-weight-bold text-dark"><i class="fa fa-pie-chart mr-2"></i>Network Overview</h5>
+              </div>
+              <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item py-3 px-4 d-flex align-items-center">
+                    <div class="status-indicator active mr-3"></div>
+                    <div>
+                      <h6 class="mb-0 font-weight-semibold">Active Stations</h6>
+                      <small class="text-muted">{{ active_stations | default(0) }} operational units</small>
+                    </div>
+                  </div>
+                  <div class="list-group-item py-3 px-4 d-flex align-items-center">
+                    <div class="status-indicator inactive mr-3"></div>
+                    <div>
+                      <h6 class="mb-0 font-weight-semibold">Inactive Stations</h6>
+                      <small class="text-muted">{{ inactive_stations | default(0) }} offline units</small>
+                    </div>
+                  </div>
+                  <div class="list-group-item py-3 px-4 d-flex align-items-center">
+                    <div class="status-indicator maint mr-3"></div>
+                    <div>
+                      <h6 class="mb-0 font-weight-semibold">Under Maintenance</h6>
+                      <small class="text-muted">{{ maintenance_stations | default(0) }} units undergoing updates</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- City Distribution -->
+        <div class="card rounded-card border-0 shadow-sm mb-4">
+          <div class="card-header bg-white border-bottom py-3">
+            <h5 class="m-0 font-weight-bold text-dark"><i class="fa fa-map-marker mr-2"></i>Stations by City</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="row">
+              {% for city in cities_with_stations %}
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="city-card p-3 border rounded text-center">
+                  <div class="city-icon mb-2">🏢</div>
+                  <h6 class="m-0 font-weight-bold">{{ city.city_name }}</h6>
+                  <span class="badge badge-dark mt-2">{{ city.station_count }} stations</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("#menu-toggle-btn").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+
+      // Display current date in welcome section
+      const dateElement = document.querySelector('.welcome-date');
+      if (dateElement) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const currentDate = new Date().toLocaleDateString('en-US', options);
+        dateElement.innerHTML = `📅 ${currentDate} • Ready to manage your EV network`;
+      }
+    });
+  </script>
+  <script src="/static/scroll-animations.js"></script>
+</body>
+</html>
