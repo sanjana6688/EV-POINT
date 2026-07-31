@@ -453,3 +453,17 @@ footer {
     gap: 40px;
   }
 }
+
+@media (max-width: 576px) {
+  .rounded-card {
+    padding: 24px 16px !important;
+    min-height: auto !important;
+  }
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

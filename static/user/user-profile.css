@@ -98,3 +98,9 @@
 .close {
   outline: none !important;
 }
+
+@media (max-width: 576px) {
+  .profile-card {
+    padding: 24px 16px !important;
+  }
+}
